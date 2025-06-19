@@ -1,63 +1,52 @@
-# Musician Press Kit Builder
+# Digital Press Kit Builder
 
-A powerful web application for musicians to create professional, shareable digital press kits with customizable templates and analytics.
+A professional web application for musicians to create and share digital press kits with customizable templates and analytics.
 
 ## Overview
 
-The Digital Press Kit Builder allows musicians and artists to:
-
-- Create and customize professional press kits
-- Showcase music, videos, photos, and tour dates
-- Share press kits with industry professionals
-- Track engagement with analytics
-- Manage multiple press kits for different purposes
+The Digital Press Kit Builder is designed to help artists present themselves professionally to industry contacts, fans, and potential collaborators. This application enables musicians to create, manage, and share digital press kits that showcase their music, media, biography, tour dates, and contact information.
 
 ## Features
 
-- **User Authentication System**: Secure account management with social login options
-- **Press Kit Creation and Editing**: Intuitive drag-and-drop interface
-- **Media Management**: Support for images, videos, audio, and downloadable files
-- **Biography and Text Content**: Rich text editor for compelling artist stories
-- **Tour/Event Calendar**: Display and manage upcoming shows
-- **Contact and Booking Information**: Secure methods for industry professionals to get in touch
-- **Social Media Integration**: Connect all your platforms in one place
+- **User Authentication**: Secure signup, login, and profile management
+- **Press Kit Creation**: Multiple press kits for different projects or purposes
+- **Customizable Templates**: Choose from professionally designed templates
+- **Media Management**: Upload photos, embed music from Spotify/SoundCloud, add videos
+- **Biography Editor**: Format text with basic styling options
+- **Tour Calendar**: Display upcoming shows with venue details and ticket links
+- **Contact Management**: Secure contact methods for industry professionals
+- **Social Media Integration**: Link to platforms and display social presence
 - **Analytics Dashboard**: Track views, engagement, and link clicks
-- **Sharing and Privacy Controls**: Public links and password-protected sections
-- **Templates and Customization**: Professional designs with brand customization
+- **Sharing Controls**: Custom URLs, password protection, and domain mapping
 
-## Technology Stack
+## Tech Stack
 
-### Front-end
+### Frontend
 - React.js with hooks
-- Tailwind CSS
-- Material-UI / Chakra UI
-- Context API / Redux
-- Formik with Yup
+- Chakra UI / Material-UI components
+- Context API for state management
+- Formik with Yup for form validation
+- Responsive design for all devices
 
-### Back-end
+### Backend
 - Node.js with Express.js
-- RESTful API
+- RESTful API architecture
 - JWT Authentication
-- bcrypt for password security
-
-### Database
-- PostgreSQL
+- MongoDB with Mongoose ODM
 - AWS S3 for media storage
-- Redis for caching
 
 ### DevOps
-- AWS / Heroku / Vercel
-- GitHub Actions
-- Sentry
-- Google Analytics
+- AWS for hosting
+- GitHub Actions for CI/CD
+- Sentry for error monitoring
+- Google Analytics integration
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-- PostgreSQL
-- Redis
+- Node.js (v14+)
+- MongoDB
+- AWS account (for media storage)
 
 ### Installation
 
@@ -67,42 +56,42 @@ git clone https://github.com/dxaginfo/musician-press-kit-builder.git
 cd musician-press-kit-builder
 ```
 
-2. Install dependencies
+2. Install backend dependencies
 ```bash
-# Install backend dependencies
 cd server
 npm install
+```
 
-# Install frontend dependencies
-cd ../client
+3. Install frontend dependencies
+```bash
+cd client
 npm install
 ```
 
-3. Set up environment variables
-```bash
-# In the server directory, create a .env file
-cp .env.example .env
-```
+4. Set up environment variables
+Create a `.env` file in the server directory based on `.env.example`
 
-4. Set up the database
+5. Run database migrations
 ```bash
-# Run database migrations
 cd server
 npm run migrate
 ```
 
-5. Start the development servers
+6. Start development servers
+
+Backend:
 ```bash
-# Start the backend server
 cd server
 npm run dev
+```
 
-# In a new terminal, start the frontend server
+Frontend:
+```bash
 cd client
 npm start
 ```
 
-6. Open your browser and navigate to `http://localhost:3000`
+7. Access the application at `http://localhost:3000`
 
 ## Project Structure
 
@@ -110,27 +99,93 @@ npm start
 musician-press-kit-builder/
 ├── client/                 # React frontend
 │   ├── public/             # Static files
-│   └── src/                # Source files
-│       ├── components/     # UI components
-│       ├── context/        # Context API
-│       ├── hooks/          # Custom hooks
-│       ├── pages/          # Page components
-│       ├── services/       # API services
-│       └── utils/          # Utility functions
-├── server/                 # Express backend
+│   ├── src/                # Source code
+│   │   ├── components/     # UI components
+│   │   ├── context/        # Context API
+│   │   ├── layouts/        # Page layouts
+│   │   ├── pages/          # Page components
+│   │   ├── services/       # API services
+│   │   └── utils/          # Utility functions
+│   └── package.json        # Frontend dependencies
+├── server/                 # Node.js backend
 │   ├── config/             # Configuration files
-│   ├── controllers/        # Request handlers
+│   ├── controllers/        # Route controllers
 │   ├── middleware/         # Custom middleware
 │   ├── models/             # Database models
 │   ├── routes/             # API routes
-│   └── utils/              # Utility functions
-├── .github/                # GitHub workflows
-└── docs/                   # Documentation
+│   ├── services/           # Business logic
+│   ├── utils/              # Utility functions
+│   └── package.json        # Backend dependencies
+└── README.md               # Project documentation
 ```
 
-## API Documentation
+## API Endpoints
 
-API documentation is available at `/api/docs` when running the development server.
+### Authentication
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
+
+### Press Kits
+- `GET /api/press-kits` - Get all press kits for current user
+- `GET /api/press-kits/:id` - Get a specific press kit
+- `POST /api/press-kits` - Create a new press kit
+- `PUT /api/press-kits/:id` - Update a press kit
+- `DELETE /api/press-kits/:id` - Delete a press kit
+- `GET /api/press-kits/public/:slug` - View a public press kit
+
+### Sections
+- `GET /api/sections/:pressKitId` - Get all sections for a press kit
+- `POST /api/sections` - Create a new section
+- `PUT /api/sections/:id` - Update a section
+- `DELETE /api/sections/:id` - Delete a section
+- `PUT /api/sections/reorder` - Reorder sections
+
+### Media
+- `GET /api/media/:pressKitId` - Get all media for a press kit
+- `POST /api/media/upload` - Upload media files
+- `DELETE /api/media/:id` - Delete media item
+- `PUT /api/media/reorder` - Reorder media items
+
+### Events
+- `GET /api/events/:pressKitId` - Get all events for a press kit
+- `POST /api/events` - Create a new event
+- `PUT /api/events/:id` - Update an event
+- `DELETE /api/events/:id` - Delete an event
+
+### Analytics
+- `GET /api/analytics/:pressKitId` - Get analytics for a press kit
+- `GET /api/analytics/overview` - Get user's overall analytics
+
+## Deployment
+
+### Production Build
+
+1. Build the frontend
+```bash
+cd client
+npm run build
+```
+
+2. Configure the production server
+   - Set NODE_ENV=production in your environment
+   - Configure a production MongoDB database
+   - Set up AWS S3 for media storage
+
+3. Start the production server
+```bash
+cd server
+npm start
+```
+
+### Docker Deployment
+
+A Dockerfile and docker-compose.yml are provided for containerized deployment.
+
+```bash
+docker-compose up -d
+```
 
 ## Contributing
 
@@ -146,9 +201,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- [React](https://reactjs.org/)
+- [React.js](https://reactjs.org/)
 - [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Material-UI](https://mui.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Express.js](https://expressjs.com/)
+- [Chakra UI](https://chakra-ui.com/)
+
+## Contact
+
+For questions or support, please contact [dxag.info@gmail.com](mailto:dxag.info@gmail.com).
